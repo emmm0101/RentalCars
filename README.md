@@ -23,7 +23,7 @@ To accomodate this new office we need to implement some changes to our software:
 
 * We also need a new kind of statement grouped by car category to better see what our customers prefer:  
 
-	Category&nbsp;&nbsp;&nbsp;&nbsp;Total Income  
+	**Category&nbsp;&nbsp;&nbsp;&nbsp;Total Income**  
 	
 	Regular&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;220 EUR  
 	Premium&nbsp;&nbsp;&nbsp;&nbsp;5000 EUR  
