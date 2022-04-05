@@ -1,13 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
+using RentalCars.RentalCategories;
 
 namespace RentalCars
 {
     public class RentalCars
     {
-        private readonly List<Rental> _rentals = new List<Rental>();
+        // TO DO
+        // refactor as factory class that generates 2 classes/objects: IasiRentalCars and BucurestiRentalCars
+        // both will receive a list of prices that will be used by rentalcategory to calculate rentalamount
 
-        public RentalCars(string name)
+        private float[] prices;
+        
+        private List<Rental> rentals = new List<Rental>();
+
+        private List<RentalCategory> categories = new List<RentalCategory>
+        {
+            new RegularRentalCategory(new float[] {1,2})
+        };
+
+        public RentalCars(string name, float[] prices)
         {
             Name = name;
         }
@@ -16,8 +29,7 @@ namespace RentalCars
 
         public void AddRental(Rental rental)
         {
-            _rentals.Add(rental);
-            rental.Customer.AddRental(rental);
+            rentals.Add(rental);
         }
 
         public string Statement()
@@ -29,37 +41,37 @@ namespace RentalCars
             var r = "Rental Record for " + Name + "\n";
             r += "------------------------------\n";
 
-            foreach (var each in _rentals)
+            foreach (var each in rentals)
             {
                 double thisAmount = 0;
 
                 // determines the amount for each line
-                switch (each.Car.PriceCode)
-                {
-                    case PriceCode.Regular:
-                        thisAmount += pricePerDay * 2;
-                        if (each.DaysRented > 2)
-                            thisAmount += (each.DaysRented - 2) * pricePerDay * 0.75;
-                        break;
-                    case PriceCode.Premium:
-                        thisAmount += each.DaysRented * pricePerDay * 1.5;
-                        break;
-                    case PriceCode.Mini:
-                        thisAmount += pricePerDay * 3 * 0.75;
-                        if (each.DaysRented > 3)
-                            thisAmount += (each.DaysRented - 3) * pricePerDay * 0.5;
-                        break;
-                }
+                //switch (each.Car.PriceCode)
+                //{
+                //    case PriceCode.Regular:
+                //        thisAmount += pricePerDay * 2;
+                //        if (each.DaysRented > 2)
+                //            thisAmount += (each.DaysRented - 2) * pricePerDay * 0.75;
+                //        break;
+                //    case PriceCode.Premium:
+                //        thisAmount += each.DaysRented * pricePerDay * 1.5;
+                //        break;
+                //    case PriceCode.Mini:
+                //        thisAmount += pricePerDay * 3 * 0.75;
+                //        if (each.DaysRented > 3)
+                //            thisAmount += (each.DaysRented - 3) * pricePerDay * 0.5;
+                //        break;
+                //}
 
-                if (each.Customer.FrequentRenterPoints >= 5)
-                {
-                    thisAmount = thisAmount * 0.95;
-                }
+                //if (each.Customer.FrequentRenterPoints >= 5)
+                //{
+                //    thisAmount = thisAmount * 0.95;
+                //}
 
-                frequentRenterPoints = 1;
-                if (each.Car.PriceCode == PriceCode.Premium
-                    && each.DaysRented > 1)
-                    frequentRenterPoints++;
+                //frequentRenterPoints = 1;
+                //if (each.Car.PriceCode == PriceCode.Premium
+                //    && each.DaysRented > 1)
+                //    frequentRenterPoints++;
 
                 each.Customer.FrequentRenterPoints += frequentRenterPoints;
 
@@ -71,5 +83,28 @@ namespace RentalCars
 
             return r;
         }
+        
+        public float calculateTotalRevenue()
+        {
+            float totalRevenue = 0;
+            rentals.ForEach(rental => totalRevenue += rental.rentalAmount);   
+            return  totalRevenue;
+        }
+
+        // ? parcurgere de 2 ori a listei rentals : calcul revenue si afisare rental
+        public string StatementWithListOfRentalsAndTotalRevenue()
+        {
+            StringBuilder sb = new StringBuilder("ABC", 50);
+            return sb.ToString(); 
+        }
+
+        public string StatementWithListOfRentalCategories()
+        {
+
+            StringBuilder sb = new StringBuilder("ABC", 50);
+            return sb.ToString();
+        }
+
+
     }
 }
